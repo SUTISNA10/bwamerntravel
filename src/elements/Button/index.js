@@ -17,6 +17,22 @@ export default function Button() {
     if (props.onClick) props.onClick();
   };
 
+  if (props.isDisabled || props.isLoading) {
+    if (props.isDisabled) className.push("disabled");
+    return (
+      <span className={className.join(" ")} style={props.style}>
+        {props.isLoading ? (
+          <>
+            <span className="spinner-border spinner-border-sm mx-5"></span>
+            <span className="sr-only">Loading...</span>
+          </>
+        ) : (
+          props.children
+        )}
+      </span>
+    );
+  }
+
   if (props.type === "link") {
     if (props.isExternal) {
       return (
@@ -33,7 +49,11 @@ export default function Button() {
     }
   }
 
-  return <div></div>;
+  return (
+    <button className={className.join(" ")} style={props.style} onClick={onClick}>
+      {props.children}
+    </button>
+  );
 }
 
 Button.propTypes = {
